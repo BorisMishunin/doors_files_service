@@ -8,7 +8,7 @@ import localsettings as settings
 class DoorsImages(models.Model):
     image = models.ImageField(upload_to='DoorsImages', max_length=200)
 
-    def save(self, add_watermark=False, **kwargs):
+    def save(self, add_watermark=True, **kwargs):
         super(DoorsImages, self).save(**kwargs)
         path = self.image.path
         image = Image.open(path)

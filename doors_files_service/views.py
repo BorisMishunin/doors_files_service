@@ -1,6 +1,7 @@
 import doors_files_service.localsettings as settings
 from .forms import DoorsImagesForm
 from .models import DoorsImages
+from rest_framework.response import Response
 import hashlib
 import os
 
@@ -42,7 +43,7 @@ def upload_file(request):
             new_file = DoorsImages()
             new_file.image = os.path.join(file_subpath, file_name)
             new_file.save(add_watermark=True)
-            return JsonResponse({'msg': 'ok', 'path': new_file.image.url})
+            return Response({'msg': 'ok', 'path': new_file.image.url})
     else:
-        return JsonResponse({'msg': 'bad method'})
+        return Response({'msg': 'bad method'})
 
