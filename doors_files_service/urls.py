@@ -1,19 +1,18 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 import doors_files_service.localsettings as settings
 from django.contrib import admin
+import views
 
 admin.autodiscover()
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^upload_file$',
-        'doors_files_service.views.upload_file',
+        views.upload_file,
         name='upload_file'),
     url(r'^admin/', include(admin.site.urls)),
-)
+]
 
 
-urlpatterns += patterns(
-    '',
+urlpatterns.append(
     (r'^' + settings.MEDIA_URL + '(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT})
 )

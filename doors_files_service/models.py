@@ -12,22 +12,8 @@ class DoorsImages(models.Model):
         super(DoorsImages, self).save(**kwargs)
         path = self.image.path
         image = Image.open(path)
-        width, height = image.size
 
-        base_width = 960
-        ratio = 0.5625  # 2560x1440, 1280x720
-        base_height = int(base_width * ratio)  # 540
-
-        if not (width == base_width and height == base_height):
-            # resize image
-            coef = float(base_width) / width
-            new_height = int(coef * height)
-            image = image.resize((base_width, new_height), Image.ANTIALIAS)
-
-            # crop image
-            delta = (new_height - base_height) / 2
-            if delta > 0:
-                image = image.crop((0, delta, base_width, new_height - delta))
+        image.thumbnail((200,200))
 
         if not add_watermark:
             image.save(path)

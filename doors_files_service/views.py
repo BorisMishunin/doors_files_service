@@ -4,10 +4,11 @@ from .models import DoorsImages
 from rest_framework.response import Response
 import hashlib
 import os
+from rest_framework.decorators import api_view
 
 LIMIT_PER_DIR = 1000
 
-
+@api_view(['POST', ])
 def upload_file(request):
     if request.method == 'POST':
         if request.POST.get('type', None) == 'marketplace':
@@ -43,6 +44,8 @@ def upload_file(request):
             new_file = DoorsImages()
             new_file.image = os.path.join(file_subpath, file_name)
             new_file.save(add_watermark=True)
+            with open('/develop/dev0/goors_buildout/var/log/teeeest', 'a') as fl:
+                fl.write(new_file.image.url +'\n')
             return Response({'msg': 'ok', 'path': new_file.image.url})
     else:
         return Response({'msg': 'bad method'})
