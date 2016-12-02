@@ -41,9 +41,16 @@ def upload_file(request):
                 destination.write(request.FILES['file'].file.read())
             destination.close()
 
+            add_watermark = True
+            create_thumbnail = True
+
+            if request.POST.get('object', None) in ('action',):
+                add_watermark = False
+                create_thumbnail = False
+
             new_file = DoorsImages()
             new_file.image = os.path.join(file_subpath, file_name)
-            new_file.save(add_watermark=True)
+            new_file.save(add_watermark=add_watermark, create_thumbnail=create_thumbnail)
             with open('/develop/dev0/goors_buildout/var/log/teeeest', 'a') as fl:
                 fl.write(new_file.image.url +'\n')
             return Response({'msg': 'ok', 'path': new_file.image.url})
